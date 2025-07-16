@@ -1,0 +1,139 @@
+// Database schema for Travel Booking System
+// Corrected relationships for dbdiagrams.io
+
+Table users {
+  user_id integer [pk, increment]
+  email varchar(255) [not null, unique]
+  password_hash varchar(255) [not null]
+  role varchar(20) [not null, default: 'traveler', note: "traveler|admin|vendor"]
+  created_at timestamp [default: `now()`]
+  last_login timestamp
+}
+
+Table profiles {
+  profile_id integer [pk, increment]
+  user_id integer [ref: > users.user_id, unique]
+  first_name varchar(50) [not null]
+  last_name varchar(50) [not null]
+  passport_number varchar(50)
+  address jsonb
+  phone varchar(20)
+}
+
+Table preferences {
+  preference_id integer [pk, increment]
+  user_id integer [ref: > users.user_id]
+  category varchar(50) [not null]
+  value jsonb [not null]
+}
+
+Table trips {
+  trip_id integer [pk, increment]
+  user_id integer [ref: > users.user_id]
+  title varchar(100) [not null]
+  destination jsonb [not null]
+  start_date date [not null]
+  end_date date [not null]
+  status varchar(20) [default: 'draft', note: "draft|planned|completed"]
+  notes text
+}
+
+Table vendors {
+  vendor_id integer [pk, increment]
+  name varchar(100) [not null]
+  contact_email varchar(255)
+  service_type varchar(20) [note: "hotel|car_rental|tour"]
+}
+
+Table hotels {
+  hotel_id integer [pk, increment]
+  vendor_id integer [ref: > vendors.vendor_id]
+  name varchar(100) [not null]
+  location geography(point) [not null]
+  amenities text[] [not null]
+  price_per_night numeric(10,2) [not null]
+}
+
+Table flights {
+  flight_id integer [pk, increment]
+  airline varchar(50) [not null]
+  departure_airport char(3) [not null]
+  arrival_airport char(3) [not null]
+  departure_time timestamptz [not null]
+  seat_classes jsonb [not null]
+}
+
+Table cars {
+  car_id integer [pk, increment]
+  model varchar(50) [not null]
+  rental_company varchar(50) [not null]
+  price_per_day numeric(10,2) [not null]
+  features varchar(100) [not null, note: "List of features"]
+}
+
+Table bookings {
+  booking_id uuid [pk, default: `gen_random_uuid()`]
+  trip_id integer [ref: > trips.trip_id]
+  user_id integer [ref: > users.user_id, not null]
+  service_type varchar(10) [not null, note: "hotel|flight|car"]
+  service_id integer [not null, note: "ID from hotels/flights/cars"]
+  status varchar(20) [default: 'pending', not null]
+  booked_at timestamp [default: `now()`]
+}
+
+Table itinerary_events {
+  event_id integer [pk, increment]
+  trip_id integer [ref: > trips.trip_id]
+  day_number smallint [not null]
+  start_time timestamp [not null]
+  end_time timestamp [not null]
+  title varchar(100) [not null]
+  description text
+  location varchar(100)
+  booking_id uuid [ref: > bookings.booking_id]
+}
+
+Table payments {
+  payment_id uuid [pk, default: `gen_random_uuid()`]
+  booking_id uuid [ref: > bookings.booking_id, unique, not null]
+  amount numeric(10,2) [not null]
+  currency char(3) [not null]
+  method varchar(20) [not null, note: "card|upi|wallet"]
+  status varchar(20) [not null, note: "pending|completed|refunded"]
+  gateway_response jsonb
+}
+
+Table invoices {
+  invoice_id integer [pk, increment]
+  payment_id uuid [ref: > payments.payment_id, not null]
+  invoice_number varchar(50) [unique, not null]
+  issued_at timestamp [default: `now()`]
+  s3_path varchar(255) [not null]
+}
+
+Table reviews {
+  review_id integer [pk, increment]
+  booking_id uuid [ref: > bookings.booking_id, not null]
+  rating smallint [not null]
+  comment text
+  created_at timestamp [default: `now()`]
+  verified boolean [default: false]
+}
+
+// Corrected Relationships (Binary only)
+// Ref: users.user_id < profiles.user_id
+// Ref: users.user_id < preferences.user_id
+// Ref: users.user_id < trips.user_id
+// Ref: users.user_id < bookings.user_id
+// Ref: vendors.vendor_id < hotels.vendor_id
+// Ref: trips.trip_id < bookings.trip_id
+// Ref: trips.trip_id < itinerary_events.trip_id
+// Ref: bookings.booking_id < itinerary_events.booking_id
+// Ref: bookings.booking_id < payments.booking_id
+// Ref: bookings.booking_id < reviews.booking_id
+// Ref: payments.payment_id < invoices.payment_id
+
+// Service relationships
+Ref: hotels.hotel_id < bookings.service_id
+Ref: flights.flight_id < bookings.service_id
+Ref: cars.car_id < bookings.service_id
