@@ -99,4 +99,17 @@ public class LoggingAspect {
 
 ```
 
+
+`Main`
+
+```java
+@SpringBootApplication
+@EnableAspectJAutoProxy
+public class MyApp {
+    public static void main(String[] args) {
+        SpringApplication.run(MyApp.class, args);
+    }
+}
+```
+
 ---
