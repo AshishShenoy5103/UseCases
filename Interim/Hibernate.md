@@ -148,7 +148,7 @@ public class Bike extends Vehicle {
 🔹 First-Level Cache (L1)
 - Enabled by default.
 - Associated with the Hibernate Session.
-- Data is cached for the duration of the session.
+- Data is cached for the duration of the session.  
 🔹 Second-Level Cache (L2)
 - Optional and must be configured.
 - Works across sessions.
