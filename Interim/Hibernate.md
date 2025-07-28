@@ -149,6 +149,7 @@ public class Bike extends Vehicle {
 - Enabled by default.
 - Associated with the Hibernate Session.
 - Data is cached for the duration of the session.  
+
 🔹 Second-Level Cache (L2)
 - Optional and must be configured.
 - Works across sessions.
