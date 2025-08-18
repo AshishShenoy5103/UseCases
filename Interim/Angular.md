@@ -117,3 +117,120 @@ export class HelloComponent {
 
 --- 
 
+### How components communicate with each other?
+- Components often need to share data. Since Angular follows a component-based architecture, data can flow in different direction
+1. Parent ➝ Child (Using @Input), parent passes data to child.
+```ts
+// parent.component.ts
+export class ParentComponent {
+    parentMessage = "Hello from Parents!"
+}
+```
+
+```html
+<!-- Child Compoent inside the parent Component -->
+<app-child [message]="parentMessage"></app-child>
+```
+
+```ts
+// child.component.ts
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-child',
+  template: `<p>{{ message }}</p>`
+})
+export class ChildComponent {
+  @Input() message!: string;
+}
+```
+
+2. Child ➝ Parent (using @Output + EventEmitter), Child sends events to parent.
+3. Sibling → Sibling (Using Shared Service)
+4. Router-based communication: `RouterLink` & `Navigate()`
+
+---
+
+### What is contetnt Projection?
+Content projection in Angular is a technique that allows us to pass HTML content from a parent component into a child component and render it there.  
+- It is achieved using the `<ng-content>` directive.
+```html
+<!-- child.component.ts -->
+<div class="card">
+  <h3>Reusable Card</h3>
+  <ng-content></ng-content>
+</div>
+```
+
+```html
+<!-- parent.component.ts -->
+ <app-child>
+  <p>This content comes from the parent!</p>
+</app-child>
+```
+
+---
+
+### What is Authentication & Authorization?
+- Authentication - Verifying the credentials given by the user matches with the credentials stored in the db.
+- Authorization - What user is allowed to access.
+
+---
+
+### What are Angular Module?
+An Angular module is a container that groups together components, directives, pipes, and services that are related to a particular feature or functionality. Angular has several types of modules:  
+1. Root Module 
+- Every Angular project has a root module, usually `AppModule`.
+2. Shared Module
+- Contains code that is used across multiple parts of the application, like headers, footers.
+3. Feature Module
+- Implements a specific functionality of the application. Example: Admin dashboard
+4. Lazy-loaded Module
+- Loaded only when required
+5. Routing Module 
+- Manages the routes for a particular module or feature.
+
+---
+
+### What are Angular directive?
+Angular directives are classes that add behavior or functionality to elements in the DOM.  
+Example:  
+1. `ngIf`
+```ts
+export class AppComponent {
+    isLoggedIn = true;
+}
+```
+
+```html
+<p *ngIf="isLoggedIn">Welcome, User!</p>
+<p *ngIf="isLoggedIn">Please Log In!</p>
+```
+
+2. `ngFor`
+```ts
+export class AppComponent {
+    fruits = ['Apple', 'Banana', 'Orange'];
+}
+```
+
+```html
+<ul>
+    <li *ngFor="let fruit of fruits">{{fruit}}<li>
+</ul>
+```
+
+3. `ngSwitch`
+```ts
+export class AppComponent {
+    color = 'red';
+}
+```
+
+```html
+<div [ngSwitch]='color'>
+    <p *ngSwitchCase='red'>Red Color Selected</p>
+    <p *ngSwitchCase='blue'>Blue Color Selected</p>
+    <p *ngSwitchDefault></p>
+</div>
+```
