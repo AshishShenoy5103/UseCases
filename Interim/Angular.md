@@ -286,3 +286,52 @@ export class ExampleComponent {
 ```
 
 ---
+
+### Pipes in Angular ?
+Pipes in Angular are used to transform data before displaying it in the template.
+```html
+<p>{{ name | uppercase }}</p>
+```
+
+--- 
+
+### WHat is AuthGuard?
+AuthGuard in Angular is used to prevent unauthorized access to routes. It ensures that only authenticated or authorized users can access certain parts of an application.
+
+```ts
+// app.routes.ts
+{
+  path: 'dashboard',
+  component: DashboardComponent,
+  canActivate: [AuthGuard]
+}
+```
+
+---
+
+### What is Angular Routing & Angular Navigation?
+**Angular Routing**
+Routing is the mechanism of defining routes in your Angular application so that different URLs show different components.  
+```ts
+const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'about', component: AboutComponent },
+  { path: '**', component: PageNotFoundComponent } 
+];
+```
+
+**Angular Navigation**
+Navigation is the act of moving from one route to another programmatically or via links.  
+```ts
+<a routerLink="/about">Go to About</a>
+```
+
+```ts
+import { Router } from '@angular/router';
+
+constructor(private router: Router) {}
+
+goToHome() {
+  this.router.navigate(['/']);
+}
+```
