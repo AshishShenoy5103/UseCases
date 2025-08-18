@@ -179,15 +179,15 @@ Content projection in Angular is a technique that allows us to pass HTML content
 
 ### What are Angular Module?
 An Angular module is a container that groups together components, directives, pipes, and services that are related to a particular feature or functionality. Angular has several types of modules:  
-1. Root Module 
+1. **Root Module** 
 - Every Angular project has a root module, usually `AppModule`.
-2. Shared Module
+2. **Shared Module**
 - Contains code that is used across multiple parts of the application, like headers, footers.
-3. Feature Module
+3. **Feature Module**
 - Implements a specific functionality of the application. Example: Admin dashboard
-4. Lazy-loaded Module
+4. **Lazy-loaded Module**
 - Loaded only when required
-5. Routing Module 
+5. **Routing Module**
 - Manages the routes for a particular module or feature.
 
 ---
