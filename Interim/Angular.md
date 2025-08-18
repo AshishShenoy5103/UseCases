@@ -335,3 +335,168 @@ goToHome() {
   this.router.navigate(['/']);
 }
 ```
+
+---
+
+### Angular Forms (Template-driven vs Reactive)?
+- Template-driven Forms: Simple and easy to use. (ngForm)
+- More dynamic and powerful, but slightly more complex.
+
+---
+
+### Angular vs AngularJS ?
+- Angular => TypeScript + Component based architecture.
+- AngularJS => JavaScript + MVC based architecture.
+
+---
+
+### Angular CLI
+- Angular CLI (Command Line Interface) is a tool to create, manage, and run Angular applications efficiently.
+1. `ng new <app-name>` – Creates a new Angular application with the specified name.
+2. `ng serve` – Runs the Angular application locally (default: http://localhost:4200).
+3. `ng build` – Compiles the application into an output directory for deployment.
+4. `ng test` – Runs the unit tests for the application using Karma.
+5. `ng generate component <name>` – Generates a new component with all its files.
+6. `ng generate service <name>` – Generates a new service.
+
+---
+
+### What Observable?
+- An Observable is a way to handle asynchronous data in Angular.
+- Think of it like a stream of values over time (like messages coming in, clicks, HTTP responses, or real-time data).
+- You can subscribe to this stream and get notified whenever there’s new data.
+
+**Analogy**
+- Observable = TV channel
+- Subscriber = person watching TV
+- New data = new program on the channel
+
+---
+
+### Basic Angular Code
+
+Install HttpClientModule in `app.module.ts`
+```ts
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, HttpClientModule],
+  bootstrap: [AppComponent]
+})
+export class AppModule {}
+```
+
+Create a service `user.service.ts`  
+```ts
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+export interface User {
+  id?: number;
+  name: string;
+  email: string;
+}
+
+@Injectable({ providedIn: 'root' })
+export class UserService {
+    private baseURL = 'http://localhost:8080/api/user';
+
+    constructor(private http: HttpClient) {}
+
+    // GET All User
+    getUser(): Observable<User[]> {
+        return this.http.get<User[]>(this.baseURL);
+    }
+
+    // GET User By ID
+    getUser(id: number): Observable<User[]> {
+        return this.http.get<User>(`${this.baseUrl}/${id}`);
+    }
+
+    // POST new users
+    createUser(user: User): Observable<User> {
+        return this.http.post<User>(this.baseURL, user);
+    }
+
+    // PUT update user
+    updateUser(id: number, user: User): Observable<User> {
+        return this.http.put<User>(`${this.baseUrl}/${id}`, user);
+    }
+
+    // DELETE user
+    deleteUser(id: number): Observable<void> {
+        return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    }
+}
+```
+
+Create `app.component.ts`
+
+```ts
+import { Component, OnInit } from '@angular/core';
+import { UserService, User } from './user.service';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html'
+})
+export class AppComponent implements OnInit {
+  users: User[] = [];
+  newUser: User = { name: '', email: '' };
+
+  constructor(private userService: UserService) {}
+
+  ngOnInit() {
+    this.getAllUsers();
+  }
+
+  getAllUsers() {
+    this.userService.getUsers().subscribe(data => this.users = data);
+  }
+
+  addUser() {
+    this.userService.createUser(this.newUser).subscribe(() => {
+      this.getAllUsers(); // refresh list
+      this.newUser = { name: '', email: '' };
+    });
+  }
+
+  updateUser(user: User) {
+    if (user.id) {
+      user.name = user.name + ' Updated'; // example update
+      this.userService.updateUser(user.id, user).subscribe(() => this.getAllUsers());
+    }
+  }
+
+  deleteUser(id: number) {
+    this.userService.deleteUser(id).subscribe(() => this.getAllUsers());
+  }
+}
+```
+
+Create `app.component.html`
+```html
+<h2>Users List</h2>
+<ul>
+  <li *ngFor="let user of users">
+    {{ user.name }} ({{ user.email }})
+    <button (click)="updateUser(user)">Update</button>
+    <button (click)="deleteUser(user.id!)">Delete</button>
+  </li>
+</ul>
+
+<h3>Add New User</h3>
+<input type="text" placeholder="Name" [(ngModel)]="newUser.name">
+<input type="email" placeholder="Email" [(ngModel)]="newUser.email">
+<button (click)="addUser()">Add User</button>
+```
+
+---
+
+
+
