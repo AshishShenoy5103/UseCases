@@ -31,3 +31,53 @@ export class AppComponet {
 <h1>{{title}}</h1>
 ```
 
+2. Property Binding (`[]`) 
+- One way from component to DOM Property
+```ts
+export class AppComponent {
+  imgUrl = 'assests/cat.png';
+}
+```
+
+```html
+<img [src]="igmUrl" alt="Image">
+```
+
+3. Event Binding (`()`)
+- One way from view to Components
+```ts
+export class AppComponent {
+  greet() {
+    alert('Hello!');
+  }
+}
+```
+
+```html
+<button (click)="greet()">Click Me</button>
+```
+
+4. Two-way binding (`[()]`)
+```ts
+export class AppComponent {
+  user = {username:'', password:''};
+  
+  onSubmit(form:any) {
+    if(form.valid) {
+        console.log("Form Submitted", form.value);
+    } else {
+        console.log("Form Invalid");
+    }
+  }
+}
+```
+
+```html
+<form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+    <input type="text" name="username" [(ngModel)]="user.username" required>
+    <input type="password" name="password" [(ngModel)]="user.password" required>
+    <button type="submit" [disabled]="loginForm.invalid">Submit</button>
+</form>
+```
+
+---
