@@ -234,3 +234,55 @@ export class AppComponent {
     <p *ngSwitchDefault></p>
 </div>
 ```
+
+---
+
+### What is an Angular Service?
+A service is a class that holds reusable logic, data or functions that can be shared across components.  
+**Creating a Service Class**
+```ts
+import { Injectable } from '@angular/core';
+
+@Injectable({
+    providedIn: 'root' // makes the service available application-wide
+})
+export class DataService {
+    private data: string[] = [];
+
+    addData(item:string) {
+        this.data.push(item);
+    }
+
+    getData(){
+        return this.data;
+    }
+}
+```
+
+**Other Component**
+```ts
+import { Component } from '@angular/core';
+import { DataService } from './data.service';
+
+@Component({
+  selector: 'app-example',
+  template: `
+    <button (click)="addItem()">Add Item</button>
+    <ul>
+      <li *ngFor="let item of items">{{ item }}</li>
+    </ul>
+  `
+})
+export class ExampleComponent {
+    items: string[] = [];
+
+    constructor(private dataService: DataService) {} // Constructor DI
+
+    addItem() {
+        this.dataService.addData('New Item');
+        this.items = this.dataService.getData();
+    }
+}
+```
+
+---
