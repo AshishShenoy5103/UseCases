@@ -82,9 +82,38 @@ export class AppComponent {
 
 ---
 
-### What are components in Angular
+### What are components in Angular?
 A component in Angular is basic building block of the User Interface.  
 For creating a component
 ```bash
 ng generate component <component-name> 
 ```
+Angular generates four files
+1. **TypeScript file (.ts)** – contains the component logic and metadata using the `@Component` decorator.
+2. **HTML file (.html)** – defines the view (UI) for the component.
+3. **CSS/SCSS file (.css/.scss)** – handles the styling of the component.
+4. **Spec file (.spec.ts)** – used for writing unit test cases.
+
+
+```ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-hello',
+  templateUrl: './hello.component.html',
+  styleUrls: ['./hello.component.css']
+})
+export class HelloComponent {
+  name = 'Ashish';   
+  sayHi() {        
+    alert('Hello ' + this.name);
+  }
+}
+```
+
+```html
+<button (click)="sayHi()">Greet</button>
+```
+
+--- 
+
