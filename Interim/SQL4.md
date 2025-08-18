@@ -74,3 +74,4 @@ HAVING AVG(salary) > 60000;
 `CHAR_LENGTH()` = characters, `LENGTH()` = bytes.
 
 - **Q4. Can scalar functions be used in WHERE?**  
+A scalar function is a function that returns a single value (like `UPPER()`, `LOWER()`, `LEN()`, `ROUND()`, `GETDATE()`, or user-defined functions that return a single value). Since it returns a single value, it can be compared with other values in a `WHERE` clause.
