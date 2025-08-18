@@ -81,3 +81,10 @@ export class AppComponent {
 ```
 
 ---
+
+### What are components in Angular
+A component in Angular is basic building block of the User Interface.  
+For creating a component
+```bash
+ng generate component <component-name> 
+```
