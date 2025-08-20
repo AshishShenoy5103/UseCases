@@ -13,7 +13,7 @@ Hooks basically show the lifecycle of the components.
 There are three main hooks: 
 - `ngOnInit` - Runs when the component is created and initialized
 - `ngOnChange` - Runs when the input properties of a component changes. Angular compares the old and new values and re-rendes only the affected part.
-- `ngOnDelete` - Runs just before the component is removed, useful for cleanup.
+- `ngOnDestroy` - Runs just before the component is removed, useful for cleanup.
 
 ---
 
