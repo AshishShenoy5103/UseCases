@@ -15,6 +15,10 @@ There are three main hooks:
 - `ngOnChange` - Runs when the input properties of a component changes. Angular compares the old and new values and re-rendes only the affected part.
 - `ngOnDestroy` - Runs just before the component is removed, useful for cleanup.
 
+Some other  
+- `ngDoCheck()` - for custom change detection.
+- `ngAfterViewInit()` - for code that depends on child view
+
 ---
 
 ### Data Binding in Angular?
