@@ -346,6 +346,20 @@ goToHome() {
 - Template-driven Forms: Simple and easy to use. (ngForm)
 - More dynamic and powerful, but slightly more complex.
 
+
+Template-driven
+- Built using Angular’s FormsModule.
+- Most of the logic is written directly in the template (HTML) using directives like ngModel.
+- They are simple and suitable for small forms.
+- Validation is also written inside the template using Angular’s built-in validators. (min, max required)
+
+Reactive forms
+- Built using Angular’s ReactiveFormsModule.
+- The entire form structure and logic are defined in the TypeScript file using FormGroup, FormControl, and FormBuilder.
+- They provide better scalability, testability, and complex validation support.
+- Useful for large forms and dynamic form handling.
+
+
 ---
 
 ### Angular vs AngularJS ?
