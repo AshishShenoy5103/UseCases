@@ -151,7 +151,7 @@ export class ChildComponent {
 
 ---
 
-### What is contetnt Projection?
+### What is content Projection?
 Content projection in Angular is a technique that allows us to pass HTML content from a parent component into a child component and render it there.  
 - It is achieved using the `<ng-content>` directive.
 ```html
@@ -295,7 +295,7 @@ Pipes in Angular are used to transform data before displaying it in the template
 
 --- 
 
-### WHat is AuthGuard?
+### What is AuthGuard?
 AuthGuard in Angular is used to prevent unauthorized access to routes. It ensures that only authenticated or authorized users can access certain parts of an application.
 
 ```ts
