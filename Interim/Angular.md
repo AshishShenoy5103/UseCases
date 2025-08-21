@@ -516,5 +516,59 @@ Create `app.component.html`
 
 ---
 
+### Creating a form
+```html
+<h2>User Form</h2>
 
+<form #userForm="ngForm" (ngSubmit)="submitForm(userForm)">
+  
+  <!-- Name Field -->
+  <label>Name:</label>
+  <input type="text" [(ngModel)]="user.name" name="name" #name="ngModel" required>
+  <span *ngIf="name.invalid && name.touched" style="color:red">
+    Name is required.
+  </span>
+  <br><br>
 
+  <!-- Email Field -->
+  <label>Email:</label>
+  <input type="email" [(ngModel)]="user.email" name="email" #email="ngModel" required email>
+  <span *ngIf="email.invalid && email.touched" style="color:red">
+    <span *ngIf="email.errors?.required">Email is required.</span>
+    <span *ngIf="email.errors?.email">Invalid email format.</span>
+  </span>
+  <br><br>
+
+  <button type="submit" [disabled]="userForm.invalid">Submit</button>
+</form>
+
+<p>
+  Typed so far: Name - {{ user.name }}, Email - {{ user.email }}
+</p>
+
+```
+
+```ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html'
+})
+export class AppComponent {
+  user = {
+    name: '',
+    email: ''
+  };
+
+  submitForm(form: any) {
+    if (form.valid) {
+      alert(`Submitted: Name - ${this.user.name}, Email - ${this.user.email}`);
+      console.log('Form Submitted:', this.user);
+      form.reset();
+    } else {
+      alert('Form is invalid!');
+    }
+  }
+}
+```
